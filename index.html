@@ -1,0 +1,214 @@
+<!doctype html>
+
+<head>
+	<title>XM2 8K v2 Configurator</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<header class="topbar">
+		<div class="brand">
+			<img src="https://assets.endgamegear.com/assets/endgamegear/images/logo.svg" alt="Logo" width="164"
+				height="44">
+			<div>
+				<h1>XM2 8K v2 Configurator</h1>
+			</div>
+		</div>
+		<div class="connection">
+			<span class="firmware-pill">Firmware <span id="fw-version">unknown</span></span>
+			<span class="status-dot" id="status-dot"></span>
+			<span id="status-text">Not connected</span>
+			<button class="button button-primary" id="btn-connect">Connect</button>
+		</div>
+	</header>
+
+	<main class="layout">
+		<p class="warning" id="webhid-warning" hidden>WebHID is not available in this browser.</p>
+
+		<section class="config-stack" id="config-panel" hidden>
+			<nav class="tabs-nav" role="tablist">
+				<button class="tab-btn active" data-tab="tab-performance" role="tab" aria-selected="true"
+					aria-controls="tab-performance" id="btn-tab-performance">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="tab-icon">
+						<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+					</svg>
+					Sensitivity & Speed
+				</button>
+				<button class="tab-btn" data-tab="tab-sensor" role="tab" aria-selected="false"
+					aria-controls="tab-sensor" id="btn-tab-sensor">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="tab-icon">
+						<circle cx="12" cy="12" r="10"></circle>
+						<circle cx="12" cy="12" r="6"></circle>
+						<circle cx="12" cy="12" r="2"></circle>
+					</svg>
+					Sensor Features
+				</button>
+				<button class="tab-btn" data-tab="tab-buttons" role="tab" aria-selected="false"
+					aria-controls="tab-buttons" id="btn-tab-buttons">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="tab-icon">
+						<rect x="5" y="2" width="14" height="20" rx="7"></rect>
+						<path d="M12 2v9"></path>
+						<path d="M5 9h14"></path>
+					</svg>
+					Button Filters
+				</button>
+			</nav>
+
+			<div id="tab-performance" class="tab-panel" role="tabpanel" aria-labelledby="btn-tab-performance">
+				<div class="tab-grid-2col">
+					<section class="panel">
+						<div class="panel-heading">
+							<h2>Performance</h2>
+						</div>
+						<div class="settings-grid">
+							<div>
+								<h3>Polling Rate</h3>
+								<div class="segmented" id="polling-group">
+									<button data-rate="1000">1000</button>
+									<button data-rate="2000">2000</button>
+									<button data-rate="4000">4000</button>
+									<button data-rate="8000">8000</button>
+								</div>
+							</div>
+							<div>
+								<h3>Lift-Off Distance</h3>
+								<div class="chip-grid" id="lod-group">
+									<button data-lod="0.7">0.7mm</button>
+									<button data-lod="0.8">0.8mm</button>
+									<button data-lod="0.9">0.9mm</button>
+									<button data-lod="1.0">1.0mm</button>
+									<button data-lod="1.1">1.1mm</button>
+									<button data-lod="1.2">1.2mm</button>
+									<button data-lod="1.3">1.3mm</button>
+									<button data-lod="1.4">1.4mm</button>
+									<button data-lod="1.5">1.5mm</button>
+									<button data-lod="1.6">1.6mm</button>
+									<button data-lod="1.7">1.7mm</button>
+									<button data-lod="2.0">2.0mm</button>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="panel">
+						<div class="panel-heading">
+							<h2>CPI Levels</h2>
+							<div class="cpi-header-controls">
+								<label class="cpi-split-label">
+									<input type="checkbox" id="cpi-xy-split"> Split X/Y
+								</label>
+								<div class="stepper">
+									<button id="cpi-count-minus" aria-label="Remove CPI level">-</button>
+									<output id="cpi-count-val">4</output>
+									<button id="cpi-count-plus" aria-label="Add CPI level">+</button>
+								</div>
+							</div>
+						</div>
+						<div class="cpi-list" id="cpi-list"></div>
+					</section>
+				</div>
+			</div>
+
+			<div id="tab-sensor" class="tab-panel" role="tabpanel" aria-labelledby="btn-tab-sensor" hidden>
+				<section class="panel">
+					<div class="panel-heading">
+						<h2>Sensor Options</h2>
+					</div>
+					<div class="switch-list switch-list-compact">
+						<label class="switch-row">
+							<span><strong>Motion Sync</strong><small>Synchronise sensor frames to USB
+									polling.</small></span>
+							<input type="checkbox" id="motion-sync">
+						</label>
+						<label class="switch-row">
+							<span><strong>Angle Snapping</strong><small>Straighten horizontal and vertical
+									movement.</small></span>
+							<input type="checkbox" id="angle-snap">
+						</label>
+						<label class="switch-row">
+							<span><strong>Ripple Control</strong><small>Reduce high-CPI jitter with
+									smoothing.</small></span>
+							<input type="checkbox" id="ripple-control">
+						</label>
+						<label class="switch-row">
+							<span><strong>Disable LED on Lift-Off</strong><small>Turn off the bottom indicator LED when
+									lifted.</small></span>
+							<input type="checkbox" id="lift-led">
+						</label>
+						<label class="switch-row">
+							<span><strong>Sensor Glass Mode</strong><small>Optimise tracking for glass
+									surfaces.</small></span>
+							<input type="checkbox" id="glass-mode">
+						</label>
+						<label class="switch-row">
+							<span><strong>Force Max Sensor FPS</strong><small>Keep the sensor running at its maximum
+									frame rate.</small></span>
+							<input type="checkbox" id="force-max-fps">
+						</label>
+						<label class="switch-row">
+							<span><strong>Slamclick Filter</strong><small>Prevent accidental clicks when lifting or
+									slamming the mouse.</small></span>
+							<input type="checkbox" id="slamclick">
+						</label>
+					</div>
+				</section>
+			</div>
+
+			<div id="tab-buttons" class="tab-panel" role="tabpanel" aria-labelledby="btn-tab-buttons" hidden>
+				<section class="panel">
+					<div class="panel-heading">
+						<h2>Click Filters</h2>
+					</div>
+					<div class="filter-grid">
+						<div class="spdt-control">
+							<label>Left Button SPDT <select id="left-spdt"></select></label>
+							<div class="spdt-range" id="left-filter-wrap">
+								<div class="spdt-range-header">
+									<span>Left Filter</span>
+									<input id="left-filter-number" type="number" min="0" max="25" step="1"
+										class="filter-number-input">
+								</div>
+								<input id="left-filter" type="range" min="0" max="25" step="1">
+							</div>
+						</div>
+						<div class="spdt-control">
+							<label>Right Button SPDT <select id="right-spdt"></select></label>
+							<div class="spdt-range" id="right-filter-wrap">
+								<div class="spdt-range-header">
+									<span>Right Filter</span>
+									<input id="right-filter-number" type="number" min="0" max="25" step="1"
+										class="filter-number-input">
+								</div>
+								<input id="right-filter" type="range" min="0" max="25" step="1">
+							</div>
+						</div>
+						<label>Middle Button <input id="middle-filter" type="number" min="0" max="25" step="1"></label>
+						<label>Forward Button <input id="forward-filter" type="number" min="0" max="25"
+								step="1"></label>
+						<label>Back Button <input id="back-filter" type="number" min="0" max="25" step="1"></label>
+					</div>
+				</section>
+			</div>
+		</section>
+	</main>
+
+	<footer class="actionbar" id="actionbar" hidden>
+		<span id="dirty-label">Saved</span>
+		<div>
+			<button class="button" id="btn-read">Read from Mouse</button>
+			<button class="button" id="btn-reset">Factory Reset</button>
+			<button class="button button-primary" id="btn-apply">Apply to Mouse</button>
+		</div>
+	</footer>
+
+	<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+	<script type="module" src="app.js"></script>
+</body>
+
+</html>
